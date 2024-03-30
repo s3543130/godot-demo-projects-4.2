@@ -10,16 +10,16 @@ config_version=5
 
 [application]
 
-config/name="Bullet Shower"
-config/description="Demonstrates how to manage large amounts of objects efficiently using low-level Servers."
-config/tags=PackedStringArray("2d", "demo", "official", "performance")
-run/main_scene="res://shower.tscn"
+config/name="子弹弹幕"
+config/description="演示如何使用低级服务器有效管理大量对象。"
+config/tags=PackedStringArray("2d", "demo", "official", "performance", "已修改")
+run/main_scene="res://弹幕.tscn"
 config/features=PackedStringArray("4.2")
 config/icon="res://icon.webp"
 
 [display]
 
-window/stretch/mode="canvas_items"
+window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
 [layer_names]

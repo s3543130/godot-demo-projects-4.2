@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://c78by7hc4fmwx"]
+
+[ext_resource type="Script" path="res://n_子弹s.gd" id="1_cwmrl"]
+[ext_resource type="Script" path="res://n_玩家.gd" id="2_3ew8h"]
+[ext_resource type="Texture2D" uid="uid://d3u7k0742d5ug" path="res://face_happy.png" id="3_0y10k"]
+[ext_resource type="Texture2D" uid="uid://8j32onnr4qo3" path="res://face_sad.png" id="4_iie18"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1juc2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_0y10k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_iie18")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4fufm"]
+radius = 28.0179
+
+[node name="N_弹幕" type="Node2D"]
+
+[node name="N_子弹s" type="Node2D" parent="."]
+script = ExtResource("1_cwmrl")
+
+[node name="N_玩家" type="Area2D" parent="."]
+script = ExtResource("2_3ew8h")
+
+[node name="N_动画精灵2D" type="AnimatedSprite2D" parent="N_玩家"]
+sprite_frames = SubResource("SpriteFrames_1juc2")
+
+[node name="N_物理形状2D" type="CollisionShape2D" parent="N_玩家"]
+shape = SubResource("CircleShape2D_4fufm")
+
+[connection signal="body_shape_entered" from="N_玩家" to="N_玩家" method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="N_玩家" to="N_玩家" method="_on_body_shape_exited"]

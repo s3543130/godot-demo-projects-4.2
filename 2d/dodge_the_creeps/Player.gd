@@ -2,8 +2,8 @@ extends Area2D
 
 signal hit
 
-@export var speed = 400 # How fast the player will move (pixels/sec).
-var screen_size # Size of the game window.
+@export var speed = 400 # 玩家移动速度（像素/秒）。
+var screen_size # 游戏窗口的大小。
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -11,7 +11,7 @@ func _ready():
 
 
 func _process(delta):
-	var velocity = Vector2.ZERO # The player's movement vector.
+	var velocity = Vector2.ZERO # 玩家的移动向量。
 	if Input.is_action_pressed(&"move_right"):
 		velocity.x += 1
 	if Input.is_action_pressed(&"move_left"):
@@ -48,7 +48,7 @@ func start(pos):
 
 
 func _on_Player_body_entered(_body):
-	hide() # Player disappears after being hit.
+	hide() # 玩家被击中后消失。
 	hit.emit()
-	# Must be deferred as we can't change physics properties on a physics callback.
+	# 必须延迟执行，因为我们不能在物理回调中更改物理属性。
 	$CollisionShape2D.set_deferred(&"disabled", true)
