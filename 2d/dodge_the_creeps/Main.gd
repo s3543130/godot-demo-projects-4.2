@@ -1,56 +1,56 @@
 extends Node
 
-@export var mob_scene: PackedScene
-var score
+@export var v_怪物场景: PackedScene
+var v_分数
 
-func game_over():
-	$ScoreTimer.stop()
-	$MobTimer.stop()
-	$HUD.show_game_over()
+func f_游戏结束():
+	$N_得分计时器.stop()
+	$N_怪物计时器.stop()
+	$HUD.f_显示游戏结束()
 	$Music.stop()
 	$DeathSound.play()
 
 
-func new_game():
+func f_新游戏():
 	get_tree().call_group(&"mobs", &"queue_free")
-	score = 0
-	$Player.start($StartPosition.position)
-	$StartTimer.start()
-	$HUD.update_score(score)
-	$HUD.show_message("Get Ready")
+	v_分数 = 0
+	$N_玩家.f_开始($N_开始地点.position)
+	$N_开始计时器.start()
+	$HUD.f_更新分数(v_分数)
+	$HUD.f_显示消息("做好准备")
 	$Music.play()
 
 
-func _on_MobTimer_timeout():
-	# Create a new instance of the Mob scene.
-	var mob = mob_scene.instantiate()
+func _on_怪物计时器_结束():
+	# 创建一个新的 Mob 场景实例。
+	var v_怪物 = v_怪物场景.instantiate()
 
-	# Choose a random location on Path2D.
-	var mob_spawn_location = get_node(^"MobPath/MobSpawnLocation")
-	mob_spawn_location.progress = randi()
+	# 在 Path2D 上选择一个随机位置。
+	var v_怪物生成位置 = $"N_怪物路径/N_怪物生成位置"
+	v_怪物生成位置.progress = randi()
 
-	# Set the mob's direction perpendicular to the path direction.
-	var direction = mob_spawn_location.rotation + PI / 2
+	# 将怪物的方向设置为与路径方向垂直。
+	var v_方向 = v_怪物生成位置.rotation + PI / 2
 
-	# Set the mob's position to a random location.
-	mob.position = mob_spawn_location.position
+	# 将怪物的位置设置为随机位置。
+	v_怪物.position = v_怪物生成位置.position
 
-	# Add some randomness to the direction.
-	direction += randf_range(-PI / 4, PI / 4)
-	mob.rotation = direction
+	# 在方向上添加一些随机性。
+	v_方向 += randf_range(-PI / 4, PI / 4)
+	v_怪物.rotation = v_方向
 
-	# Choose the velocity for the mob.
-	var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
-	mob.linear_velocity = velocity.rotated(direction)
+	# 为怪物选择速度。
+	var v_速率 = Vector2(randf_range(150.0, 250.0), 0.0)
+	v_怪物.linear_velocity = v_速率.rotated(v_方向)
 
-	# Spawn the mob by adding it to the Main scene.
-	add_child(mob)
+	# 通过将怪物添加到 Main 场景中来生成怪物。
+	add_child(v_怪物)
 
-func _on_ScoreTimer_timeout():
-	score += 1
-	$HUD.update_score(score)
+func _on_得分计时器_结束():
+	v_分数 += 1
+	$HUD.f_更新分数(v_分数)
 
 
-func _on_StartTimer_timeout():
-	$MobTimer.start()
-	$ScoreTimer.start()
+func _on_开始计时器_结束():
+	$N_怪物计时器.start()
+	$N_得分计时器.start()

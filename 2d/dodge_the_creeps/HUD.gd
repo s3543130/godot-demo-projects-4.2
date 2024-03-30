@@ -1,30 +1,30 @@
 extends CanvasLayer
 
-signal start_game
+signal s_开始游戏
 
-func show_message(text):
-	$MessageLabel.text = text
-	$MessageLabel.show()
-	$MessageTimer.start()
+func f_显示消息(v_文本):
+	$N_消息标签.text = v_文本
+	$N_消息标签.show()
+	$N_消息计时器.start()
 
 
-func show_game_over():
-	show_message("Game Over")
-	await $MessageTimer.timeout
-	$MessageLabel.text = "Dodge the\nCreeps"
-	$MessageLabel.show()
+func f_显示游戏结束():
+	f_显示消息("游戏结束")
+	await $N_消息计时器.timeout
+	$N_消息标签.text = "躲避怪物"
+	$N_消息标签.show()
 	await get_tree().create_timer(1).timeout
-	$StartButton.show()
+	$N_开始按钮.show()
 
 
-func update_score(score):
-	$ScoreLabel.text = str(score)
+func f_更新分数(v_分数):
+	$N_分数标签.text = str(v_分数)
 
 
-func _on_StartButton_pressed():
-	$StartButton.hide()
-	start_game.emit()
+func _on_开始按钮_按下():
+	$N_开始按钮.hide()
+	s_开始游戏.emit()
 
 
-func _on_MessageTimer_timeout():
-	$MessageLabel.hide()
+func _on_消息计时器_结束():
+	$N_消息标签.hide()

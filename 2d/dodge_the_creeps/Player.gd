@@ -1,54 +1,54 @@
 extends Area2D
 
-signal hit
+signal s_击中
 
-@export var speed = 400 # 玩家移动速度（像素/秒）。
-var screen_size # 游戏窗口的大小。
+@export var v_速度 = 400 # 玩家移动速度（像素/秒）。
+var v_屏幕尺寸 # 游戏窗口的大小。
 
 func _ready():
-	screen_size = get_viewport_rect().size
+	v_屏幕尺寸 = get_viewport_rect().size
 	hide()
 
 
-func _process(delta):
-	var velocity = Vector2.ZERO # 玩家的移动向量。
+func _process(v_间隔):
+	var v_速率 = Vector2.ZERO # 玩家的移动向量。
 	if Input.is_action_pressed(&"move_right"):
-		velocity.x += 1
+		v_速率.x += 1
 	if Input.is_action_pressed(&"move_left"):
-		velocity.x -= 1
+		v_速率.x -= 1
 	if Input.is_action_pressed(&"move_down"):
-		velocity.y += 1
+		v_速率.y += 1
 	if Input.is_action_pressed(&"move_up"):
-		velocity.y -= 1
+		v_速率.y -= 1
 
-	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
-		$AnimatedSprite2D.play()
+	if v_速率.length() > 0:
+		v_速率 = v_速率.normalized() * v_速度
+		$N_动画精灵2D.play()
 	else:
-		$AnimatedSprite2D.stop()
+		$N_动画精灵2D.stop()
 
-	position += velocity * delta
-	position = position.clamp(Vector2.ZERO, screen_size)
+	position += v_速率 * v_间隔
+	position = position.clamp(Vector2.ZERO, v_屏幕尺寸)
 
-	if velocity.x != 0:
-		$AnimatedSprite2D.animation = &"right"
-		$AnimatedSprite2D.flip_v = false
+	if v_速率.x != 0:
+		$N_动画精灵2D.animation = &"右"
+		$N_动画精灵2D.flip_v = false
 		$Trail.rotation = 0
-		$AnimatedSprite2D.flip_h = velocity.x < 0
-	elif velocity.y != 0:
-		$AnimatedSprite2D.animation = &"up"
-		rotation = PI if velocity.y > 0 else 0
+		$N_动画精灵2D.flip_h = v_速率.x < 0
+	elif v_速率.y != 0:
+		$N_动画精灵2D.animation = &"上"
+		rotation = PI if v_速率.y > 0 else 0
 
 
-func start(pos):
-	position = pos
+func f_开始(v_位置):
+	position = v_位置
 	rotation = 0
 	show()
-	$CollisionShape2D.disabled = false
+	$N_物理形状2D.disabled = false
 
 
-func _on_Player_body_entered(_body):
+func _on_玩家实体进入(_body):
 	hide() # 玩家被击中后消失。
-	hit.emit()
+	s_击中.emit()
 	# 必须延迟执行，因为我们不能在物理回调中更改物理属性。
-	$CollisionShape2D.set_deferred(&"disabled", true)
+	$N_物理形状2D.set_deferred(&"disabled", true)

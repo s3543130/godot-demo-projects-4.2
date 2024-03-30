@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://cyfwty2q3rdse"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1"]
-[ext_resource type="PackedScene" uid="uid://rkdnhqgf2hpj" path="res://Mob.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://rkdnhqgf2hpj" path="res://怪物.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://4vwrqjegqwpj" path="res://Player.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://ccqoreueuxdb7" path="res://HUD.tscn" id="4"]
 [ext_resource type="AudioStream" uid="uid://q2pf4fr8d0ks" path="res://art/House In a Forest Loop.ogg" id="5"]
@@ -13,11 +13,11 @@ _data = {
 }
 point_count = 5
 
-[node name="Main" type="Node"]
+[node name="N_主" type="Node"]
 script = ExtResource("1")
-mob_scene = ExtResource("2")
+"v_怪物场景" = ExtResource("2")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="N_颜色矩形" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,24 +25,24 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.219608, 0.372549, 0.380392, 1)
 
-[node name="Player" parent="." instance=ExtResource("3")]
+[node name="N_玩家" parent="." instance=ExtResource("3")]
 
-[node name="MobTimer" type="Timer" parent="."]
+[node name="N_怪物计时器" type="Timer" parent="."]
 wait_time = 0.5
 
-[node name="ScoreTimer" type="Timer" parent="."]
+[node name="N_得分计时器" type="Timer" parent="."]
 
-[node name="StartTimer" type="Timer" parent="."]
+[node name="N_开始计时器" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
 
-[node name="StartPosition" type="Marker2D" parent="."]
+[node name="N_开始地点" type="Marker2D" parent="."]
 position = Vector2(240, 450)
 
-[node name="MobPath" type="Path2D" parent="."]
+[node name="N_怪物路径" type="Path2D" parent="."]
 curve = SubResource("1")
 
-[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+[node name="N_怪物生成位置" type="PathFollow2D" parent="N_怪物路径"]
 
 [node name="HUD" parent="." instance=ExtResource("4")]
 
@@ -52,8 +52,8 @@ stream = ExtResource("5")
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6")
 
-[connection signal="hit" from="Player" to="." method="game_over"]
-[connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
-[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
-[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
-[connection signal="start_game" from="HUD" to="." method="new_game"]
+[connection signal="s_击中" from="N_玩家" to="." method="f_游戏结束"]
+[connection signal="timeout" from="N_怪物计时器" to="." method="_on_怪物计时器_结束"]
+[connection signal="timeout" from="N_得分计时器" to="." method="_on_得分计时器_结束"]
+[connection signal="timeout" from="N_开始计时器" to="." method="_on_开始计时器_结束"]
+[connection signal="s_开始游戏" from="HUD" to="." method="f_新游戏"]
