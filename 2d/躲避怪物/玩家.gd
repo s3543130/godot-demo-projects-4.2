@@ -33,11 +33,11 @@ func _process(v_间隔):
 	if v_速率.x != 0:
 		$N_动画精灵2D.animation = &"右"
 		$N_动画精灵2D.flip_v = false
-		$Trail.rotation = 0
+		$N_轨迹.rotation = 0
 		$N_动画精灵2D.flip_h = v_速率.x < 0
 	elif v_速率.y != 0:
 		$N_动画精灵2D.animation = &"上"
-		rotation = PI if v_速率.y > 0 else 0
+		rotation = PI if v_速率.y > 0.0 else 0.0
 
 
 func f_开始(v_位置):
